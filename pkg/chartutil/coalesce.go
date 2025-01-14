@@ -23,7 +23,7 @@ import (
 	"github.com/mitchellh/copystructure"
 	"github.com/pkg/errors"
 
-	"helm.sh/helm/v3/pkg/chart"
+	"helm.sh/helm/v4/pkg/chart"
 )
 
 func concatPrefix(a, b string) string {
@@ -129,7 +129,7 @@ func coalesceDeps(printf printFn, chrt *chart.Chart, dest map[string]interface{}
 // coalesceGlobals copies the globals out of src and merges them into dest.
 //
 // For convenience, returns dest.
-func coalesceGlobals(printf printFn, dest, src map[string]interface{}, prefix string, merge bool) {
+func coalesceGlobals(printf printFn, dest, src map[string]interface{}, prefix string, _ bool) {
 	var dg, sg map[string]interface{}
 
 	if destglob, ok := dest[GlobalKey]; !ok {

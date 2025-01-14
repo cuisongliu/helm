@@ -27,15 +27,15 @@ import (
 	"sort"
 	"strings"
 
-	"helm.sh/helm/v3/pkg/release"
+	"helm.sh/helm/v4/pkg/release"
 
 	"github.com/spf13/cobra"
 
-	"helm.sh/helm/v3/cmd/helm/require"
-	"helm.sh/helm/v3/pkg/action"
-	"helm.sh/helm/v3/pkg/chartutil"
-	"helm.sh/helm/v3/pkg/cli/values"
-	"helm.sh/helm/v3/pkg/releaseutil"
+	"helm.sh/helm/v4/cmd/helm/require"
+	"helm.sh/helm/v4/pkg/action"
+	"helm.sh/helm/v4/pkg/chartutil"
+	"helm.sh/helm/v4/pkg/cli/values"
+	"helm.sh/helm/v4/pkg/releaseutil"
 )
 
 const templateDesc = `
@@ -61,7 +61,7 @@ func newTemplateCmd(cfg *action.Configuration, out io.Writer) *cobra.Command {
 		Short: "locally render templates",
 		Long:  templateDesc,
 		Args:  require.MinimumNArgs(1),
-		ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		ValidArgsFunction: func(_ *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 			return compInstall(args, toComplete, client)
 		},
 		RunE: func(_ *cobra.Command, args []string) error {
@@ -74,7 +74,7 @@ func newTemplateCmd(cfg *action.Configuration, out io.Writer) *cobra.Command {
 			}
 
 			registryClient, err := newRegistryClient(client.CertFile, client.KeyFile, client.CaFile,
-				client.InsecureSkipTLSverify, client.PlainHTTP)
+				client.InsecureSkipTLSverify, client.PlainHTTP, client.Username, client.Password)
 			if err != nil {
 				return fmt.Errorf("missing registry client: %w", err)
 			}
